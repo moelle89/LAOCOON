@@ -29,6 +29,16 @@
 
         ::-webkit-scrollbar { display: none; width: 0; }
 
+        /* Disable custom cursor on mobile / touch devices */
+        @media (hover: none) and (pointer: coarse), (max-width: 768px) {
+            body, * {
+                cursor: auto !important;
+            }
+            .cursor-inner, .cursor-outer {
+                display: none !important;
+            }
+        }
+
         #hero-pin {
             position: relative;
             width: 100%;
@@ -78,6 +88,7 @@
             transition: opacity 0.5s ease;
         }
 
+        /* Desktop Header */
         .main-header {
             position: fixed;
             top: 0; left: 0; right: 0;
@@ -95,7 +106,7 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .brand { font-size: 14px; font-weight: 600; letter-spacing: 5px; text-transform: uppercase; }
+        .brand { font-size: 14px; font-weight: 600; letter-spacing: 5px; text-transform: uppercase; color: #ffffff; }
         .header-nav { display: flex; align-items: center; gap: 24px; }
         .nav-link {
             color: #ffffff; text-decoration: none;
@@ -104,6 +115,9 @@
         }
         .nav-link:hover { color: #cd7f32; }
         .nav-dot { width: 3px; height: 3px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; }
+        
+        .header-actions { display: flex; align-items: center; gap: 16px; }
+
         .contact-btn {
             display: inline-flex; align-items: center; gap: 8px;
             padding: 10px 24px;
@@ -118,6 +132,74 @@
             border: 1px solid #000000; border-radius: 50%; background: transparent;
         }
         .contact-btn:hover { transform: scale(1.05); background: #f0f0f0; }
+
+        /* Mobile Hamburger Button */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 38px; height: 38px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 102;
+            gap: 4px;
+            transition: background 0.3s;
+        }
+
+        .mobile-menu-btn span {
+            display: block;
+            width: 14px;
+            height: 1.5px;
+            background: #ffffff;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: translateY(2.75px) rotate(45deg);
+        }
+        .mobile-menu-btn.active span:nth-child(2) {
+            transform: translateY(-2.75px) rotate(-45deg);
+        }
+
+        /* Mobile Menu Drawer Overlay */
+        .mobile-nav-drawer {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            background: rgba(8, 8, 8, 0.96);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            z-index: 99;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 32px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .mobile-nav-drawer.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .mobile-nav-link {
+            font-family: 'Italiana', serif;
+            font-size: 36px;
+            color: #fff6ed;
+            text-decoration: none;
+            letter-spacing: 2px;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .mobile-nav-link:hover {
+            color: #cd7f32;
+            transform: translateX(6px);
+        }
 
         .slide { position: absolute; bottom: 12%; pointer-events: none; }
 
@@ -168,7 +250,7 @@
 
         .slide-title {
             font-family: 'Italiana', serif;
-            font-size: 116px;
+            font-size: clamp(48px, 9vw, 116px);
             line-height: 1.0;
             font-weight: 400;
             letter-spacing: 2px;
@@ -260,7 +342,7 @@
 
         .section-heading {
             font-family: 'Italiana', serif;
-            font-size: 64px;
+            font-size: clamp(32px, 6vw, 64px);
             line-height: 1.1;
             color: #fff6ed;
             margin-bottom: 30px;
@@ -268,7 +350,7 @@
         }
 
         .lead-text {
-            font-size: 20px;
+            font-size: 18px;
             line-height: 1.7;
             color: #a3a3a3;
             max-width: 760px;
@@ -375,7 +457,7 @@
 
         .quote-block {
             text-align: center;
-            padding: 100px 40px;
+            padding: 80px 24px;
             margin-bottom: 120px;
             background: radial-gradient(circle at center, rgba(205, 127, 50, 0.08) 0%, rgba(0,0,0,0) 70%);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -385,7 +467,7 @@
         .quote-text {
             font-family: 'Playfair Display', serif;
             font-style: italic;
-            font-size: 36px;
+            font-size: clamp(22px, 4vw, 36px);
             line-height: 1.4;
             color: #fff6ed;
             max-width: 860px;
@@ -470,6 +552,8 @@
             border-top: 1px solid rgba(255, 255, 255, 0.08);
             font-size: 12px;
             color: #666666;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
         .footer-brand {
@@ -480,13 +564,92 @@
             color: #ffffff;
         }
 
-        @media (max-width: 900px) {
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .features-grid { grid-template-columns: 1fr; }
-            .exhibition-grid { grid-template-columns: 1fr; }
-            .slide-title { font-size: 64px; }
-            .section-heading { font-size: 42px; }
-            .cinematic-container, .demo-content-section, .main-header { padding-left: 24px; padding-right: 24px; }
+        /* Responsive Media Queries for Header & Layout */
+        @media (max-width: 860px) {
+            .main-header {
+                padding: 16px 24px;
+            }
+
+            .header-nav {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .cinematic-container {
+                padding: 0 24px 30px 24px;
+            }
+
+            .grid-lines {
+                left: 20px; right: 20px;
+                width: calc(100% - 40px);
+            }
+
+            .grid-line:nth-child(2), .grid-line:nth-child(4) {
+                display: none;
+            }
+
+            /* Slide 1 mobile adjustments */
+            #slide-1 .slide-title {
+                margin-left: 0;
+            }
+            #slide-1 .desc-row {
+                flex-direction: column;
+                gap: 16px;
+            }
+            #slide-1 .col-1 {
+                margin-left: 0;
+                width: 100%;
+                max-width: 100%;
+            }
+            #slide-1 .col-2 {
+                position: relative;
+                left: 0;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            /* Slide 2 mobile adjustments */
+            #slide-2 .slide-title {
+                margin-left: 0;
+            }
+            #slide-2 .slide-desc {
+                margin-left: 0;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            #slide-2-img {
+                top: 80px;
+                left: 24px;
+                width: min(200px, 40vw);
+            }
+
+            .slide {
+                bottom: 8%;
+            }
+
+            .demo-content-section {
+                padding: 80px 24px 60px 24px;
+            }
+
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+            .features-grid { grid-template-columns: 1fr; gap: 40px; }
+            .exhibition-grid { grid-template-columns: 1fr; gap: 20px; }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .contact-btn {
+                padding: 8px 16px;
+                font-size: 9px;
+            }
+            .brand {
+                font-size: 12px;
+                letter-spacing: 3px;
+            }
         }
     </style>
     <script type="importmap">
@@ -513,7 +676,18 @@
         </nav>
         <div class="header-actions">
             <a href="#demo-content" class="contact-btn">Contact <span class="btn-circle"></span></a>
+            <button class="mobile-menu-btn" aria-label="Toggle navigation menu">
+                <span></span>
+                <span></span>
+            </button>
         </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-nav-drawer" id="mobileDrawer">
+        <a href="#slide-1" class="mobile-nav-link">01 / Bronze</a>
+        <a href="#slide-2" class="mobile-nav-link">02 / Marble</a>
+        <a href="#demo-content" class="mobile-nav-link">03 / Exhibition</a>
     </div>
 
     <div id="hero-pin">
@@ -1147,11 +1321,27 @@
         }
 
         function setupNavigation() {
-            const navLinks = document.querySelectorAll('.nav-link');
+            const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const drawer = document.getElementById('mobileDrawer');
+
+            if (menuBtn && drawer) {
+                menuBtn.addEventListener('click', () => {
+                    menuBtn.classList.toggle('active');
+                    drawer.classList.toggle('open');
+                });
+            }
+
             navLinks.forEach((link) => {
                 link.addEventListener('click', (e) => {
                     const href = link.getAttribute('href');
                     e.preventDefault();
+
+                    if (drawer && drawer.classList.contains('open')) {
+                        drawer.classList.remove('open');
+                        if (menuBtn) menuBtn.classList.remove('active');
+                    }
+
                     const heroPin = document.querySelector('#hero-pin');
                     const heroScrollMax = heroPin ? (heroPin.offsetHeight - window.innerHeight) : window.innerHeight * 1.5;
 
